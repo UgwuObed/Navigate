@@ -15,10 +15,10 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('confirmed_password');
             $table->rememberToken();
             $table->timestamps();
         });
@@ -33,4 +33,8 @@ class CreateUsersTable extends Migration
     {
         Schema::dropIfExists('users');
     }
+    public function setPasswordAttribute($value)
+{
+   $this->attributes['password'] = bcrypt($value);
+}
 }
